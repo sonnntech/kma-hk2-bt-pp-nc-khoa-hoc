@@ -1,0 +1,91 @@
+\section{Giới thiệu}\label{sec:gioithieu}
+
+Data Pipeline đã trở thành thành phần quan trọng trong các hệ thống
+thông tin phục vụ vận hành và phân tích dữ liệu. Một pipeline điển hình
+tiếp nhận dữ liệu nguồn, xử lý qua các tầng trung gian, lưu trữ kết quả
+đã chuẩn hóa và cung cấp dữ liệu cho báo cáo hoặc ứng dụng hạ nguồn.
+Trong nhiều kiến trúc lakehouse hoặc warehouse, vòng đời này thường được
+biểu diễn qua các giai đoạn như Source--Bronze--Silver--Gold. Tuy các giai đoạn
+này giúp tổ chức dữ liệu rõ ràng hơn, chúng không tự động bảo đảm rằng
+dữ liệu sẽ không bị thay đổi sau khi pipeline đã hoàn tất. Các nền tảng
+dữ liệu hiện đại như Delta Lake hỗ trợ nhật ký giao dịch và quản lý dữ
+liệu theo phiên bản, nhưng bài toán kiểm chứng độc lập sau xử lý vẫn cần
+một lớp bằng chứng integrity rõ ràng hơn trong ngữ cảnh an toàn thông
+tin \citep{databricksDelta,iso27001}.
+
+Đây là vấn đề thuộc phạm vi an toàn thông tin và bảo đảm thông tin. Nếu
+người dùng có quyền cao, tài khoản bị xâm nhập hoặc người có quyền truy cập nội bộ chỉnh sửa dữ
+liệu sau khi pipeline chạy xong, công cụ điều phối vẫn có thể hiển
+thị trạng thái thành công. Cơ chế giám sát thông thường có thể xác nhận
+rằng tác vụ đã chạy, nhưng không nhất thiết kiểm chứng độc lập rằng dữ liệu
+lưu trữ sau đó vẫn còn nguyên vẹn. Nhật ký kiểm toán cơ sở dữ liệu có thể hỗ trợ điều
+tra, nhưng thường nằm trong cùng ranh giới quản trị với dữ liệu được bảo
+vệ. Mã kiểm tra ở tầng ứng dụng có thể phát hiện sai lệch đơn giản, nhưng
+nếu không được liên kết theo chuỗi giữa các giai đoạn thì khó cung cấp bằng
+chứng truy vết rõ ràng đến transformation bị ảnh hưởng.
+
+Bài báo này nghiên cứu một hướng tiếp cận nhẹ hơn: Hash-linked
+Tamper-evident Ledger. Cơ chế tamper-evident không ngăn chặn trực tiếp
+việc chỉnh sửa dữ liệu. Thay vào đó, nó tạo ra bằng chứng để phát hiện
+rằng việc chỉnh sửa đã xảy ra. Hash-linked Ledger lưu các bản ghi bằng
+chứng theo thứ tự, trong đó mỗi block chứa hash của block trước đó. Nếu
+nội dung của block hoặc liên kết previous hash bị thay đổi, quá trình
+verification về sau có thể phát hiện chuỗi không còn khớp. Cách liên kết
+bằng hash kế thừa ý tưởng cốt lõi của blockchain
+\citep{nakamoto2008bitcoin}, nhưng nghiên cứu này chỉ đánh giá một ledger
+nhẹ, không bao gồm consensus, smart contract hoặc mạng phi tập trung đầy
+đủ.
+
+\subsection{Khoảng trống nghiên
+cứu}\label{sec:khoangtrong}
+
+Một số cơ chế hiện có đã giải quyết từng phần của bài toán toàn vẹn dữ
+liệu. Nhật ký kiểm toán cơ sở dữ liệu ghi lại thao tác, nhưng quản trị viên có quyền
+cao có thể tác động đến cả dữ liệu và log. Mã kiểm tra ở tầng ứng dụng có
+thể xác thực một ảnh chụp trạng thái dữ liệu, nhưng thường bị cô lập và không bảo
+toàn quan hệ giữa các giai đoạn. Blockchain phi tập trung đầy đủ có thể cung
+cấp đặc tính bất biến mạnh hơn thông qua consensus và nhiều nút sao
+chép, nhưng chi phí phát sinh vận hành và độ phức tạp kiến trúc thường vượt quá
+nhu cầu của một bài toán kiểm chứng integrity nội bộ trong Data
+Pipeline. Pipeline monitoring quan sát trạng thái thực thi, nhưng không
+nhất thiết cung cấp bằng chứng kiểm chứng sau khi pipeline đã hoàn tất.
+
+Khoảng trống mà bài báo này tập trung là thiếu một đánh giá có kiểm soát
+về cơ chế Hash-linked Ledger nhẹ cho kiểm chứng tính toàn vẹn của Data
+Pipeline nhiều giai đoạn. Nghiên cứu xem xét liệu cơ chế này có phát hiện
+được các tamper scenarios được định nghĩa trước hay không, có xác định
+được first broken block và lineage context liên quan hay không, và
+chi phí phát sinh bổ sung thay đổi như thế nào trong một môi trường thực nghiệm
+bị ràng buộc.
+
+\subsection{Câu hỏi nghiên
+cứu}\label{sec:cauhoi}
+
+Nghiên cứu được dẫn dắt bởi bốn câu hỏi nghiên cứu:
+
+\begin{itemize}
+\item
+  \textbf{RQ1:} Hash-linked Ledger và verification engine có phát hiện
+  được thay đổi trái phép đối với dữ liệu pipeline, ledger nội dung và
+  liên kết chuỗi hay không?
+\item
+  \textbf{RQ2:} Cơ chế này có xác định được first broken block, giai đoạn bị
+  ảnh hưởng và lineage event liên quan hay không?
+\item
+  \textbf{RQ3:} Cơ chế này tạo thêm chi phí phát sinh thời gian xử lý như thế nào
+  khi số lượng bản ghi thay đổi?
+\item
+  \textbf{RQ4:} Những biến không kiểm soát được trong môi trường thực
+  nghiệm giới hạn sức mạnh kết luận ra sao?
+\end{itemize}
+
+\subsection{Đóng góp}\label{sec:donggop}
+
+Bài báo có ba đóng góp chính. Thứ nhất, nghiên cứu định nghĩa một cơ chế
+tamper-evident có phạm vi rõ ràng cho kiểm chứng integrity của Data
+Pipeline bằng batch hash, block hash, previous-hash link và lineage
+event ở từng giai đoạn. Thứ hai, nghiên cứu thiết kế một đánh giá bán thực
+nghiệm với điều kiện sạch, điều kiện bị tamper và điều kiện benchmark.
+Thứ ba, nghiên cứu báo cáo quan sát thực nghiệm cùng các giới hạn
+validity, thay vì tuyên bố quá mức rằng cơ chế này đạt tính bất biến như
+Blockchain đầy đủ hoặc đưa ra kết luận nhân quả mạnh.

@@ -1,0 +1,50 @@
+\section{Các mối đe dọa đến tính hợp
+lệ}\label{sec:threats}
+
+\subsection{Tính hợp lệ nội
+tại}\label{sec:sec:validitynoitai}
+
+Mối đe dọa chính đến tính hợp lệ nội tại là trạng thái compute không
+được kiểm soát hoàn toàn. Thực nghiệm chạy trong môi trường Databricks
+do cloud quản lý, trong đó cluster khởi động, cache state, scheduling và
+resource allocation không cố định. Các yếu tố này có thể ảnh hưởng đến
+runtime chi phí phát sinh độc lập với treatment. Để giảm rủi ro này, các lần chạy khởi động (warm-up)
+được loại khỏi phân tích chính và median được ưu tiên hơn mean.
+
+Một mối đe dọa khác là hiệu ứng lịch sử. Nếu các bảng không được reset
+đúng giữa các tamper scenarios, dữ liệu cũ hoặc ledger record cũ có thể
+tạo false positive hoặc false negative. Vì vậy, procedure bao gồm bước
+RESET\_BASELINE bắt buộc trước khi chuyển sang scenario tiếp theo.
+
+\subsection{Tính hợp lệ ngoại
+tại}\label{sec:validitingoaitai}
+
+Thực nghiệm sử dụng một Databricks không gian làm việc và dữ liệu giao dịch
+synthetic. Kết quả có thể không khái quát trực tiếp sang AWS Glue, Spark
+tại chỗ, dbt, Snowflake hoặc môi trường lakehouse production. Dữ liệu
+synthetic cũng thiếu các đặc điểm như phân phối lệch, trôi cấu trúc dữ liệu,
+giá trị thiếu và operational complexity của dữ liệu thực tế. Các nghiên
+cứu lặp lại trong tương lai nên triển khai trên nhiều môi trường và sử
+dụng dữ liệu giống môi trường vận hành thực tế đã ẩn danh.
+
+\subsection{Tính hợp lệ khái
+niệm}\label{sec:validitykhainiem}
+
+Hệ thống không nên được diễn giải là Blockchain đầy đủ. Construct được
+đánh giá là Hash-linked Tamper-evident Ledger. Cơ chế này cung cấp bằng
+chứng integrity thông qua hashes và previous-hash links, nhưng không
+cung cấp decentralized consensus hoặc tính bất biến của public chain.
+Một mối đe dọa construct khác là metric detection rate. Detection rate
+100\% chỉ áp dụng cho sáu tamper scenarios được lựa chọn trong thực
+nghiệm.
+
+\subsection{Tính hợp lệ kết
+luận}\label{sec:validityketluan}
+
+Số lượng tamper scenarios, record-count levels và số lần lặp lại đo hiệu năng
+còn hạn chế. Điều này làm cho kết quả hữu ích như bằng chứng bán thực
+nghiệm, nhưng chưa đủ cho kết luận thống kê mạnh. Các giá trị chi phí phát sinh
+là approximate vì được lấy từ bảng điều khiển observation thay vì raw
+benchmark dataset được xuất dữ liệu đầy đủ. Cần ít nhất khoảng 30 repeated
+runs cho mỗi record-count level để tính khoảng tin cậy,
+biểu đồ phân phối và phân tích cỡ hiệu ứng mạnh hơn.

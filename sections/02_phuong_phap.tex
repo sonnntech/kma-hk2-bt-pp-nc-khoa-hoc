@@ -1,0 +1,92 @@
+\section{Phương pháp nghiên
+cứu}\label{sec:phuongphap}
+
+\subsection{Biện minh lựa chọn thiết kế bán thực
+nghiệm}\label{sec:bienminh}
+
+Nghiên cứu này sử dụng phương pháp bán thực nghiệm (quasi-experimental)
+vì can thiệp kỹ thuật có thể được triển khai và đo lường, nhưng môi
+trường thực nghiệm không thể được kiểm soát hoàn toàn. Một true
+experiment đòi hỏi random assignment, tài nguyên tính toán cố định, điều
+kiện mạng ổn định, các lần chạy lặp lại trong trạng thái tài nguyên
+giống hệt nhau và tập đối tượng tấn công đại diện cho thực tế. Những giả
+định này không khả thi trong môi trường Databricks được sử dụng trong
+nghiên cứu.
+
+Thực nghiệm kiểm soát các yếu tố có thể kiểm soát được: cấu trúc
+pipeline, seed sinh dữ liệu synthetic, danh sách tamper scenarios, logic
+verification, tập biến đo lường và thứ tự procedure. Đồng thời, nghiên
+cứu ghi nhận các yếu tố không thể kiểm soát: lập lịch trên nền tảng đám mây, trạng
+thái khởi động, cache, độ trễ mạng và việc tamper scenarios là đại diện gần đúng (proxy)
+do nhà nghiên cứu thiết kế, không phải mẫu ngẫu nhiên của không gian tấn công thực
+tế. Vì vậy, kết quả được diễn giải là bằng chứng bán thực nghiệm về quan
+hệ giữa treatment và outcome quan sát được, không phải kết luận nhân quả
+phổ quát.
+
+\subsection{Treatment và Control}\label{sec:extra1}
+
+Treatment là việc bổ sung Hash-linked Tamper-evident Ledger, lineage
+recorder và verification engine vào một Data Pipeline chuẩn. Control
+condition phụ thuộc vào câu hỏi nghiên cứu. Đối với detection và
+traceability, trạng thái pipeline sạch, không có tamper scenario, đóng
+vai trò pre-test control. Đối với chi phí phát sinh, pipeline baseline không có
+ledger và verification instrumentation đóng vai trò non-equivalent
+control.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/kien_truc_ledger.pdf}
+\caption{Hash-linked Tamper-evident Ledger cho Data Pipeline nhiều giai đoạn.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Giả thuyết nghiên
+cứu}\label{sec:giathuyet}
+
+\begin{table*}[t]
+\centering
+\caption{Giả thuyết nghiên cứu}
+\label{tab:hypotheses}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Mã} & \textbf{Giả thuyết} \\
+\midrule
+H1 & Treatment phát hiện tất cả tamper scenarios được định nghĩa trước,
+trong khi điều kiện sạch vẫn hợp lệ. \\
+H2 & Treatment xác định được first broken block và liên kết được với
+lineage event tương ứng. \\
+H3 & Treatment làm tăng thời gian xử lý so với pipeline baseline, và
+chi phí phát sinh thay đổi theo số lượng bản ghi. \\
+H4 & Các biến không kiểm soát được khiến nghiên cứu không thể đưa ra kết
+luận nhân quả mạnh như true experiment. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+\subsection{Biến nghiên cứu}\label{sec:bienso}
+
+Các biến độc lập gồm tamper scenario, số lượng bản ghi, pipeline giai đoạn,
+security mechanism và run condition. Các biến phụ thuộc gồm verification
+outcome, detection rate, first-broken-block accuracy, traceability
+completeness, security chi phí phát sinh, baseline duration, secured duration và
+verification duration.
+
+\begin{table*}[t]
+\centering
+\caption{Các biến thực nghiệm cốt lõi}
+\label{tab:variables}
+\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
+\toprule
+\textbf{Biến} & \textbf{Loại} & \textbf{Vai trò} \\
+\midrule
+Tamper scenario & IV phân loại & Tác nhân kiểm thử detection và
+traceability. \\
+Record count & IV thứ bậc & Yếu tố đánh giá scaling của chi phí phát sinh. \\
+Pipeline giai đoạn & IV phân loại & Ngữ cảnh cho block và lineage
+mapping. \\
+Security mechanism & IV nhị phân & So sánh control và treatment. \\
+Verification outcome & DV phân loại & Kết quả phát hiện chính. \\
+Detection rate & DV số & Tỷ lệ tamper scenarios được phát hiện. \\
+Security chi phí phát sinh & DV số & Chi phí thời gian bổ sung của treatment. \\
+\bottomrule
+\end{tabular}
+\end{table*}

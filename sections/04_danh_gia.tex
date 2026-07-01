@@ -1,0 +1,105 @@
+\section{Đánh giá thực
+nghiệm}\label{sec:danhgia}
+
+\subsection{Kết quả phát hiện
+tamper}\label{sec:ketquaphathien}
+
+Điều kiện sạch tạo ra verification outcome là VALID trong bảng điều khiển
+xuất dữ liệu được dùng làm bằng chứng cho trạng thái không bị tamper. Các
+tamper experiments tạo ra outcome non-VALID cho tất cả tamper scenarios
+được định nghĩa trước. Bảng~\ref{tab:results} tóm tắt
+các outcome quan sát được. Kết quả hỗ trợ H1 trong phạm vi bounded set
+của các scenarios đã đánh giá.
+
+\begin{table*}[t]
+\centering
+\caption{Kết quả verification quan sát được}
+\label{tab:results}
+\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
+\toprule
+\textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
+\midrule
+NONE & VALID & TN \\
+MODIFY\_TRANSACTION\_AMOUNT & DATA\_TAMPERED & TP \\
+DELETE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+INSERT\_FAKE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+MODIFY\_LEDGER\_BATCH\_HASH & DATA\_TAMPERED & TP \\
+MODIFY\_LEDGER\_TRANSFORMATION & BLOCK\_TAMPERED & TP \\
+MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN & TP \\
+\bottomrule
+\end{tabular}
+\end{table*}
+Detection rate được tính theo công thức:
+
+\begin{equation}
+Detection\ Rate = \frac{TP}{TP + FN} \times 100\%.
+\end{equation}
+
+Với sáu true positives và không quan sát thấy false negative trong các
+tampered scenarios, detection rate đạt 100\% trong test set được định
+nghĩa trước. Kết quả này không nên được hiểu là coverage phổ quát đối
+với mọi attack vector. Nó chỉ có nghĩa là cơ chế đã phát hiện sáu tamper
+vectors được lựa chọn trong thực nghiệm này.
+
+\subsection{Kết quả traceability}\label{sec:traceability}
+
+Verification engine trả về first broken block khi phát hiện mismatch.
+Block này có thể được join với lineage events thông qua pipeline run
+identifier. Lineage flow mẫu ghi nhận các transformation
+Source-to-Bronze, Bronze-to-Silver và Silver-to-Gold, bao gồm input
+số lượng bản ghi, output số lượng bản ghi, transformation context và status. Đối
+với các tamper scenarios được đánh giá, first broken block và lineage
+context khớp với affected giai đoạn ở mức giai đoạn tổng quát. Điều này hỗ trợ
+H2, nhưng vẫn có giới hạn: một số giá trị giai đoạn trong source report được
+ghi nhận ở mức approximate và cần được xác minh bằng SQL xuất dữ liệu trực
+tiếp để có kết luận mạnh hơn.
+
+\subsection{Kết quả chi phí phát sinh}\label{sec:overhead}
+
+Security chi phí phát sinh được tính theo công thức:
+
+\begin{equation}
+Chi phí phát sinh = \frac{SecuredDuration - BaselineDuration}{BaselineDuration} \times 100\%.
+\end{equation}
+
+Các giá trị xấp xỉ từ bảng điều khiển cho thấy chi phí phát sinh tăng từ khoảng 160\% ở
+mức 1K records lên khoảng 220\% ở mức 50K records.
+Bảng~\ref{tab:overhead} tóm tắt xu hướng quan sát được.
+Trường hợp 5K gần với 1K, cho thấy khả năng có ảnh hưởng của cloud
+runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
+
+\begin{table*}[t]
+\centering
+\caption{Runtime chi phí phát sinh xấp xỉ theo số lượng bản ghi}
+\label{tab:overhead}
+\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
+\toprule
+\textbf{Số lượng bản ghi} & \textbf{Chi phí phát sinh xấp xỉ} & \textbf{Bằng chứng} \\
+\midrule
+1K & \(\sim\)160\% & Dashboard \\
+5K & \(\sim\)155--160\% & Dashboard \\
+10K & \(\sim\)180\% & Dashboard \\
+50K & \(\sim\)220\% & Dashboard \\
+\bottomrule
+\end{tabular}
+\end{table*}
+Verification latency dao động xấp xỉ từ 24 giây đến 31 giây trong các
+runs gần nhất, với một giá trị ngoại lai cao hơn. Quan sát này phù hợp với giả
+định bán thực nghiệm rằng khởi động nguội (cold start) và cloud compute scheduling không
+thể được kiểm soát hoàn toàn.
+
+\subsection{Thảo luận}\label{sec:thaoluan}
+
+Bằng chứng thực nghiệm cho thấy Hash-linked Ledger có thể làm cho hành
+vi tamper sau xử lý trở nên quan sát được trong pipeline nhiều giai đoạn. Cơ
+chế này đặc biệt hữu ích khi mục tiêu không phải là ngăn chặn trực tiếp
+privileged writes, mà là phát hiện modification trái phép trong quá
+trình verification về sau. Điều này phù hợp với thiết kế tamper-evident,
+không phải tamper-proof.
+
+Kết quả cũng làm rõ vai trò của thuật ngữ Blockchain. Nguyên mẫu sử dụng
+hash chain lấy cảm hứng từ Blockchain, nhưng không triển khai
+distributed consensus, replicated nút, mining, proof-of-work,
+proof-of-stake hoặc smart contracts. Vì vậy, thuật ngữ chính xác hơn là
+Hash-linked Tamper-evident Ledger. Sự phân biệt này quan trọng đối với
+construct validity và giúp tránh overclaiming.

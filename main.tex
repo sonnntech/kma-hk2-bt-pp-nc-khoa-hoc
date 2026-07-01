@@ -1,0 +1,52 @@
+\documentclass[conference]{IEEEtran}
+
+% Biên dịch bằng XeLaTeX hoặc LuaLaTeX để hỗ trợ tiếng Việt qua fontspec.
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\title{Kiểm chứng tính toàn vẹn dữ liệu trong Data Pipeline nhiều giai đoạn\\
+bằng Hash-linked Tamper-evident Ledger: một đánh giá bán thực nghiệm}
+
+\author{
+\IEEEauthorblockN{Nguyễn}
+\IEEEauthorblockA{Học viện Kỹ thuật Mật mã\\
+Email: [điền email tác giả]}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Bài báo trình bày một đánh giá bán thực nghiệm đối với cơ chế Hash-linked
+Tamper-evident Ledger nhằm kiểm chứng tính toàn vẹn dữ liệu trong hệ thống
+Data Pipeline nhiều giai đoạn. Cơ chế ghi nhận bằng chứng toàn vẹn ở từng
+giai đoạn, liên kết các khối ledger qua previous hash, và sử dụng một
+verification engine để phát hiện tamper sau xử lý. Kết quả thực nghiệm hỗ
+trợ các giả thuyết chính trong phạm vi bounded scope, đồng thời được diễn
+giải cùng các giới hạn về tính hợp lệ.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Tính toàn vẹn dữ liệu, tamper-evident ledger, hash chain, data pipeline,
+bán thực nghiệm, an toàn thông tin, data lineage.
+\end{IEEEkeywords}
+
+\input{sections/01_gioi_thieu.tex}
+\input{sections/02_phuong_phap.tex}
+\input{sections/03_thiet_ke_moi_truong.tex}
+\input{sections/04_danh_gia.tex}
+\input{sections/05_moi_de_doa.tex}
+\input{sections/06_ket_luan.tex}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
