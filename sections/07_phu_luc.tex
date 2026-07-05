@@ -16,24 +16,32 @@ kê rõ là \emph{chưa có bằng chứng} thay vì suy đoán.
 
 \subsection{Cấu hình môi trường thực nghiệm}
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Cấu hình môi trường (\texttt{config/demo\_config.py})}
 \label{tab:repro-env}
-\begin{tabular}{@{}p{3.2cm}p{4.5cm}@{}}
-\toprule
+\begin{tabular}{|p{3.2cm}|p{4.5cm}|}
+\hline
 \textbf{Thành phần} & \textbf{Giá trị / Nguồn} \\
-\midrule
+\hline
 Catalog & \texttt{workspace} \\
+\hline
 Schema & \texttt{blockchain\_pipeline\_demo} \\
+\hline
 Default record count & 10\,000 \\
+\hline
 Random seed & 42 \\
+\hline
 Source system & \texttt{SCHOOL\_DEMO} \\
+\hline
 Benchmark record counts & 1\,000 / 5\,000 / 10\,000 / 50\,000 \\
+\hline
 Runs per size & 3 (+ warm-up, loại khỏi summary) \\
+\hline
 CPU/RAM máy chạy Databricks & \textbf{Evidence Not Found} — Databricks Free Edition/serverless compute không công bố cấu hình cố định. \\
+\hline
 Databricks Runtime version & \textbf{Evidence Not Found} — cần ghi lại từ workspace khi chạy lại. \\
-\bottomrule
+\hline
 \end{tabular}
 \end{table}
 
@@ -62,18 +70,21 @@ Kết quả kỳ vọng: \texttt{SOURCE/BRONZE/SILVER/GOLD = VALID}.
 Theo đúng yêu cầu trung thực khoa học, các giới hạn sau được công khai
 thay vì che giấu hoặc làm tròn số liệu:
 
-\begin{table}[h]
+\begin{table}[H]
 \centering
 \caption{Các khoảng trống về khả năng tái lập}
 \label{tab:repro-gaps}
-\begin{tabular}{@{}p{4cm}p{3.7cm}@{}}
-\toprule
+\begin{tabular}{|p{4cm}|p{3.7cm}|}
+\hline
 \textbf{Gap} & \textbf{Tác động} \\
-\midrule
+\hline
 CPU/RAM và Databricks Runtime version chưa được ghi nhận & Giảm khả năng tái lập chính xác về hiệu năng; cần bổ sung khi chạy lại. \\
+\hline
 Bảng~\ref{tab:overhead} và Fig.~\ref{fig:overhead-chart} là giá trị approximate đọc từ dashboard chart, chưa export SQL trực tiếp & Cần chạy KPI~8/9 để lấy \texttt{avg\_overhead\_percent} và \texttt{median\_overhead\_percent} chính xác. \\
+\hline
 \texttt{RUNS\_PER\_SIZE = 3} & Chưa đủ mẫu cho box-plot/CDF đáng tin cậy; Fig.~\ref{fig:latency-chart} chỉ là minh họa min/điển hình/outlier, không phải phân phối đầy đủ. \\
+\hline
 first\_broken\_block trong Bảng~\ref{tab:results} ở mức giai đoạn tổng quát & Cần export JOIN \texttt{verification\_results} $\times$ \texttt{lineage\_events} để xác nhận chi tiết. \\
-\bottomrule
+\hline
 \end{tabular}
 \end{table}

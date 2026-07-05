@@ -15,18 +15,24 @@ của các scenarios đã đánh giá.
 \centering
 \caption{Kết quả verification quan sát được}
 \label{tab:results}
-\begin{tabular}{@{}p{3.6cm}p{4.4cm}p{1.3cm}@{}}
-\toprule
+\begin{tabular}{|l|l|l|}
+\hline
 \textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
-\midrule
+\hline
 NONE & VALID & TN \\
-MODIFY\_\allowbreak TRANSACTION\_\allowbreak AMOUNT & DATA\_\allowbreak TAMPERED & TP \\
-DELETE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
-INSERT\_\allowbreak FAKE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
-MODIFY\_\allowbreak LEDGER\_\allowbreak BATCH\_\allowbreak HASH & DATA\_\allowbreak TAMPERED & TP \\
-MODIFY\_\allowbreak LEDGER\_\allowbreak TRANSFORMATION & BLOCK\_\allowbreak TAMPERED & TP \\
-MODIFY\_\allowbreak LEDGER\_\allowbreak PREVIOUS\_\allowbreak HASH & CHAIN\_\allowbreak BROKEN & TP \\
-\bottomrule
+\hline
+MODIFY\_TRANSACTION\_AMOUNT & DATA\_TAMPERED & TP \\
+\hline
+DELETE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+\hline
+INSERT\_FAKE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+\hline
+MODIFY\_LEDGER\_BATCH\_HASH & DATA\_TAMPERED & TP \\
+\hline
+MODIFY\_LEDGER\_TRANSFORMATION & BLOCK\_TAMPERED & TP \\
+\hline
+MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN & TP \\
+\hline
 \end{tabular}
 \end{table*}
 
@@ -88,15 +94,18 @@ runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
 \centering
 \caption{Runtime chi phí phát sinh xấp xỉ theo số lượng bản ghi}
 \label{tab:overhead}
-\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
-\toprule
+\begin{tabular}{|l|l|l|}
+\hline
 \textbf{Số lượng bản ghi} & \textbf{Chi phí phát sinh xấp xỉ} & \textbf{Bằng chứng} \\
-\midrule
+\hline
 1K & \(\sim\)160\% & Dashboard \\
+\hline
 5K & \(\sim\)155--160\% & Dashboard \\
+\hline
 10K & \(\sim\)180\% & Dashboard \\
+\hline
 50K & \(\sim\)220\% & Dashboard \\
-\bottomrule
+\hline
 \end{tabular}
 \end{table*}
 

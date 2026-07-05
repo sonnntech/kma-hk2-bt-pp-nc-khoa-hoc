@@ -1,7 +1,7 @@
 \section{Phương pháp nghiên
 cứu}\label{sec:phuongphap}
 
-\subsection{Biện minh lựa chọn thiết kế bán thực
+\subsection{Chứng minh lựa chọn thiết kế bán thực
 nghiệm}\label{sec:bienminh}
 
 Nghiên cứu này sử dụng phương pháp bán thực nghiệm (quasi-experimental)
@@ -40,28 +40,30 @@ control.
 \label{fig:architecture}
 \end{figure}
 
-\subsection{Giả thuyết nghiên
-cứu}\label{sec:giathuyet}
+\subsection{Giả thuyết nghiên cứu}\label{sec:giathuyet}
 
-\begin{table*}[t]
+\begin{table}[!b]
 \centering
 \caption{Giả thuyết nghiên cứu}
 \label{tab:hypotheses}
-\begin{tabular}{@{}ll@{}}
-\toprule
+\begin{tabular}{|l|p{\dimexpr\columnwidth-1.2cm-6\tabcolsep\relax}|}
+\hline
 \textbf{Mã} & \textbf{Giả thuyết} \\
-\midrule
+\hline
 H1 & Treatment phát hiện tất cả tamper scenarios được định nghĩa trước,
 trong khi điều kiện sạch vẫn hợp lệ. \\
+\hline
 H2 & Treatment xác định được first broken block và liên kết được với
 lineage event tương ứng. \\
+\hline
 H3 & Treatment làm tăng thời gian xử lý so với pipeline baseline, và
 chi phí phát sinh thay đổi theo số lượng bản ghi. \\
+\hline
 H4 & Các biến không kiểm soát được khiến nghiên cứu không thể đưa ra kết
 luận nhân quả mạnh như true experiment. \\
-\bottomrule
+\hline
 \end{tabular}
-\end{table*}
+\end{table}
 \subsection{Biến nghiên cứu}\label{sec:bienso}
 
 Các biến độc lập gồm tamper scenario, số lượng bản ghi, pipeline giai đoạn,
@@ -74,19 +76,25 @@ verification duration.
 \centering
 \caption{Các biến thực nghiệm cốt lõi}
 \label{tab:variables}
-\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
-\toprule
+\begin{tabular}{|p{3.3cm}|p{2.6cm}|p{\dimexpr\textwidth-5.9cm-6\tabcolsep\relax}|}
+\hline
 \textbf{Biến} & \textbf{Loại} & \textbf{Vai trò} \\
-\midrule
+\hline
 Tamper scenario & IV phân loại & Tác nhân kiểm thử detection và
 traceability. \\
+\hline
 Record count & IV thứ bậc & Yếu tố đánh giá scaling của chi phí phát sinh. \\
+\hline
 Pipeline giai đoạn & IV phân loại & Ngữ cảnh cho block và lineage
 mapping. \\
+\hline
 Security mechanism & IV nhị phân & So sánh control và treatment. \\
+\hline
 Verification outcome & DV phân loại & Kết quả phát hiện chính. \\
+\hline
 Detection rate & DV số & Tỷ lệ tamper scenarios được phát hiện. \\
+\hline
 Security chi phí phát sinh & DV số & Chi phí thời gian bổ sung của treatment. \\
-\bottomrule
+\hline
 \end{tabular}
 \end{table*}

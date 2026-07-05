@@ -44,18 +44,24 @@ link.
 \centering
 \caption{Tamper scenarios và outcome kỳ vọng}
 \label{tab:scenarios}
-\begin{tabular}{@{}ll@{}}
-\toprule
+\begin{tabular}{|l|l|}
+\hline
 \textbf{Scenario} & \textbf{Verification outcome kỳ vọng} \\
-\midrule
+\hline
 NONE & VALID \\
+\hline
 MODIFY\_TRANSACTION\_AMOUNT & DATA\_TAMPERED \\
+\hline
 DELETE\_TRANSACTION & RECORD\_COUNT\_MISMATCH \\
+\hline
 INSERT\_FAKE\_TRANSACTION & RECORD\_COUNT\_MISMATCH \\
+\hline
 MODIFY\_LEDGER\_BATCH\_HASH & DATA\_TAMPERED \\
+\hline
 MODIFY\_LEDGER\_TRANSFORMATION & BLOCK\_TAMPERED \\
+\hline
 MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN \\
-\bottomrule
+\hline
 \end{tabular}
 \end{table*}
 \subsection{Quy trình thực
