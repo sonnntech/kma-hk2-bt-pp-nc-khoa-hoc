@@ -49,11 +49,11 @@ xelatex main.tex
 - Hai hình gốc trong `images/` là sơ đồ kiến trúc hệ thống (`fig:architecture`)
   và quy trình thực nghiệm (`fig:procedure`), dùng bản `.pdf` khi biên dịch
   (`.svg` là bản gốc để chỉnh sửa, `.png` để xem nhanh).
-- **`images/placeholders/`** chứa 3 ảnh placeholder (Databricks workspace,
-  verification dashboard, lineage join) — cần chụp màn hình thật từ
-  workspace Databricks và thay thế trước khi nộp bài chính thức. Xem
-  hướng dẫn chụp trong `sections/03_thiet_ke_moi_truong.tex` và
-  `sections/04_danh_gia.tex` (caption của từng `\includegraphics`).
+- **`images/screenshots/`** chứa ảnh chụp thật đã đưa vào bài: Databricks
+  Workspace (Fig.~2) và Verification Dashboard trạng thái sạch (Fig.~4).
+- **`images/placeholders/`** còn 1 placeholder cần thay: `lineage_join`
+  (Fig.~5) — kết quả SQL JOIN `verification_results` × `lineage_events`
+  theo `pipeline_run_id` (KPI 6 trong `sql/dashboard_queries.sql`).
 - **`images/charts/`** chứa 2 biểu đồ thật (bar chart overhead, range chart
   verification latency) dựng từ số liệu approximate hiện có trong bài. Khi
   có số liệu raw export từ `experiment_metrics`, nên vẽ lại cho chính xác
