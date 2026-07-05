@@ -19,6 +19,13 @@ cấu trúc dữ liệu. Block hash là giá trị băm (digest) mật mã của
 Previous hash liên kết block hiện tại với block trước đó trong cùng
 pipeline run.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/placeholders/databricks_workspace.pdf}
+\caption{Môi trường triển khai thực nghiệm trên Databricks: notebook \texttt{00\_setup\_environment.py} đến \texttt{07\_experiment\_and\_metrics.py} thực thi tuần tự luồng Source--Bronze--Silver--Gold (repo: \url{https://github.com/sonnntech/kma_hk2_chuyen_de_co_so_khoa_hoc}). \emph{Placeholder: sẽ thay bằng ảnh chụp Databricks Workspace thật.}}
+\label{fig:databricks-env}
+\end{figure}
+
 Verification engine tính toán lại bằng chứng ở từng giai đoạn và so sánh với
 ledger đã lưu. Sai lệch mã băm nội dung chỉ ra khả năng data tampering. Sai
 lệch số lượng bản ghi chỉ ra khả năng chèn hoặc xóa. Sai lệch block

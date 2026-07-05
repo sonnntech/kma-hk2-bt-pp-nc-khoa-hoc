@@ -15,7 +15,8 @@ của các scenarios đã đánh giá.
 \centering
 \caption{Kết quả verification quan sát được}
 \label{tab:results}
-\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
+\footnotesize
+\begin{tabular}{@{}p{5.7cm}p{4.6cm}p{1.0cm}@{}}
 \toprule
 \textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
 \midrule
@@ -29,6 +30,13 @@ MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN & TP \\
 \bottomrule
 \end{tabular}
 \end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/placeholders/verification_dashboard.pdf}
+\caption{Kết quả \texttt{verification\_results} cho một clean run (VALID) và một tamper run tiêu biểu, đối chiếu với Bảng~\ref{tab:results}. \emph{Placeholder: sẽ thay bằng ảnh chụp Databricks SQL Dashboard thật.}}
+\label{fig:verification-dashboard}
+\end{figure}
 Detection rate được tính theo công thức:
 
 \begin{equation}
@@ -54,12 +62,21 @@ H2, nhưng vẫn có giới hạn: một số giá trị giai đoạn trong sour
 ghi nhận ở mức approximate và cần được xác minh bằng SQL xuất dữ liệu trực
 tiếp để có kết luận mạnh hơn.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/placeholders/lineage_join.pdf}
+\caption{Kết quả JOIN giữa \texttt{verification\_results} (first broken block) và \texttt{lineage\_events} theo \texttt{pipeline\_run\_id} (KPI 6, \texttt{sql/dashboard\_queries.sql}). \emph{Placeholder: sẽ thay bằng ảnh chụp kết quả SQL thật.}}
+\label{fig:lineage-join}
+\end{figure}
+
 \subsection{Kết quả chi phí phát sinh}\label{sec:overhead}
 
-Security chi phí phát sinh được tính theo công thức:
+Security chi phí phát sinh được tính theo công thức, với
+$T_{\text{secured}}$ và $T_{\text{baseline}}$ lần lượt là thời gian xử
+lý pipeline có và không có Hash-linked Ledger:
 
 \begin{equation}
-Chi phí phát sinh = \frac{SecuredDuration - BaselineDuration}{BaselineDuration} \times 100\%.
+\text{Chi phí phát sinh} = \frac{T_{\text{secured}} - T_{\text{baseline}}}{T_{\text{baseline}}} \times 100\%.
 \end{equation}
 
 Các giá trị xấp xỉ từ bảng điều khiển cho thấy chi phí phát sinh tăng từ khoảng 160\% ở
@@ -83,10 +100,24 @@ runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
 \bottomrule
 \end{tabular}
 \end{table*}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/charts/overhead_by_record_count.pdf}
+\caption{Chi phí phát sinh xấp xỉ theo số lượng bản ghi (n=3 lần chạy/mức, đọc từ dashboard). Xem Phụ lục~\ref{sec:reproducibility}, mục Known Gaps, để biết cách xuất giá trị chính xác từ \texttt{experiment\_metrics}.}
+\label{fig:overhead-chart}
+\end{figure}
 Verification latency dao động xấp xỉ từ 24 giây đến 31 giây trong các
 runs gần nhất, với một giá trị ngoại lai cao hơn. Quan sát này phù hợp với giả
 định bán thực nghiệm rằng khởi động nguội (cold start) và cloud compute scheduling không
 thể được kiểm soát hoàn toàn.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{images/charts/verification_latency_range.pdf}
+\caption{Khoảng verification latency quan sát được (min / điển hình / outlier). Đây là biểu diễn minh họa từ mô tả xấp xỉ, không phải box-plot đầy đủ vì chưa có raw per-run export (xem Phụ lục~\ref{sec:reproducibility}).}
+\label{fig:latency-chart}
+\end{figure}
 
 \subsection{Thảo luận}\label{sec:thaoluan}
 
