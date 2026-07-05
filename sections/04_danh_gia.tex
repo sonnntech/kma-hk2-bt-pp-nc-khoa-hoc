@@ -11,30 +11,31 @@ tamper experiments tạo ra outcome non-VALID cho tất cả tamper scenarios
 các outcome quan sát được. Kết quả hỗ trợ H1 trong phạm vi bounded set
 của các scenarios đã đánh giá.
 
-\begin{table*}[t]
+\begin{table}[!t]
 \centering
+\footnotesize
 \caption{Kết quả verification quan sát được}
 \label{tab:results}
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|p{3.4cm}|p{3.0cm}|p{0.7cm}|}
 \hline
 \textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
 \hline
 NONE & VALID & TN \\
 \hline
-MODIFY\_TRANSACTION\_AMOUNT & DATA\_TAMPERED & TP \\
+MODIFY\_\allowbreak TRANSACTION\_\allowbreak AMOUNT & DATA\_\allowbreak TAMPERED & TP \\
 \hline
-DELETE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+DELETE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
 \hline
-INSERT\_FAKE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
+INSERT\_\allowbreak FAKE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
 \hline
-MODIFY\_LEDGER\_BATCH\_HASH & DATA\_TAMPERED & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak BATCH\_\allowbreak HASH & DATA\_\allowbreak TAMPERED & TP \\
 \hline
-MODIFY\_LEDGER\_TRANSFORMATION & BLOCK\_TAMPERED & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak TRANSFORMATION & BLOCK\_\allowbreak TAMPERED & TP \\
 \hline
-MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak PREVIOUS\_\allowbreak HASH & CHAIN\_\allowbreak BROKEN & TP \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
 
 \begin{figure}[t]
 \centering
