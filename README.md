@@ -50,10 +50,10 @@ xelatex main.tex
   và quy trình thực nghiệm (`fig:procedure`), dùng bản `.pdf` khi biên dịch
   (`.svg` là bản gốc để chỉnh sửa, `.png` để xem nhanh).
 - **`images/screenshots/`** chứa ảnh chụp thật đã đưa vào bài: Databricks
-  Workspace (Fig.~2) và Verification Dashboard trạng thái sạch (Fig.~4).
-- **`images/placeholders/`** còn 1 placeholder cần thay: `lineage_join`
-  (Fig.~5) — kết quả SQL JOIN `verification_results` × `lineage_events`
-  theo `pipeline_run_id` (KPI 6 trong `sql/dashboard_queries.sql`).
+  Workspace (Fig.~2), Verification Dashboard trạng thái sạch (Fig.~4), và
+  dashboard sau tamper run với sự kiện phát hiện giả mạo + bảng lineage
+  (Fig.~5). Thư mục `images/placeholders/` chỉ còn giữ làm tư liệu tham
+  khảo, không còn được dùng trong bài.
 - **`images/charts/`** chứa 2 biểu đồ thật (bar chart overhead, range chart
   verification latency) dựng từ số liệu approximate hiện có trong bài. Khi
   có số liệu raw export từ `experiment_metrics`, nên vẽ lại cho chính xác

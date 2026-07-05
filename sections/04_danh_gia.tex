@@ -70,8 +70,8 @@ tiếp để có kết luận mạnh hơn.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{images/placeholders/lineage_join.pdf}
-\caption{Kết quả JOIN giữa \texttt{verification\_results} (first broken block) và \texttt{lineage\_events} theo \texttt{pipeline\_run\_id} (KPI 6, \texttt{sql/dashboard\_queries.sql}). \emph{Placeholder: sẽ thay bằng ảnh chụp kết quả SQL thật.}}
+\includegraphics[width=\columnwidth]{images/screenshots/tamper_lineage_real.pdf}
+\caption{Verification Dashboard sau khi áp dụng một tamper scenario: mục ``Sự Kiện Phát Hiện Giả Mạo'' ghi nhận outcome \texttt{RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH}, cùng bảng ``Luồng Dữ Liệu'' hiển thị các lineage event Source$\to$Bronze$\to$Silver$\to$Gold với số bản ghi vào/ra. Panel ``Block Bị Phá Vỡ Đầu Tiên'' chưa hiển thị dữ liệu trong export này; phép JOIN chi tiết giữa first broken block và lineage event cần thực hiện qua KPI~6 (\texttt{sql/dashboard\_queries.sql}).}
 \label{fig:lineage-join}
 \end{figure}
 
