@@ -90,13 +90,14 @@ Bảng~\ref{tab:overhead} tóm tắt xu hướng quan sát được.
 Trường hợp 5K gần với 1K, cho thấy khả năng có ảnh hưởng của cloud
 runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
 
-\begin{table*}[t]
+\begin{table}[!t]
 \centering
+\footnotesize
 \caption{Runtime chi phí phát sinh xấp xỉ theo số lượng bản ghi}
 \label{tab:overhead}
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{Số lượng bản ghi} & \textbf{Chi phí phát sinh xấp xỉ} & \textbf{Bằng chứng} \\
+\textbf{Số bản ghi} & \textbf{Chi phí phát sinh xấp xỉ} & \textbf{Bằng chứng} \\
 \hline
 1K & \(\sim\)160\% & Dashboard \\
 \hline
@@ -107,7 +108,7 @@ runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
 50K & \(\sim\)220\% & Dashboard \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -142,3 +143,5 @@ distributed consensus, replicated nút, mining, proof-of-work,
 proof-of-stake hoặc smart contracts. Vì vậy, thuật ngữ chính xác hơn là
 Hash-linked Tamper-evident Ledger. Sự phân biệt này quan trọng đối với
 construct validity và giúp tránh overclaiming.
+
+\FloatBarrier

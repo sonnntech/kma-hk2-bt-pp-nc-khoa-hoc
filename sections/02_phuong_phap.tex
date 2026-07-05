@@ -42,7 +42,10 @@ control.
 
 \subsection{Giả thuyết nghiên cứu}\label{sec:giathuyet}
 
-\begin{table}[!b]
+Tương ứng với bốn câu hỏi nghiên cứu, bốn giả thuyết được phát biểu
+trong Bảng~\ref{tab:hypotheses}.
+
+\begin{table}[!t]
 \centering
 \caption{Giả thuyết nghiên cứu}
 \label{tab:hypotheses}
@@ -70,13 +73,15 @@ Các biến độc lập gồm tamper scenario, số lượng bản ghi, pipelin
 security mechanism và run condition. Các biến phụ thuộc gồm verification
 outcome, detection rate, first-broken-block accuracy, traceability
 completeness, security chi phí phát sinh, baseline duration, secured duration và
-verification duration.
+verification duration. Bảng~\ref{tab:variables} tóm tắt các biến cốt lõi
+cùng loại và vai trò của chúng.
 
-\begin{table*}[t]
+\begin{table}[!t]
 \centering
+\footnotesize
 \caption{Các biến thực nghiệm cốt lõi}
 \label{tab:variables}
-\begin{tabular}{|p{3.3cm}|p{2.6cm}|p{\dimexpr\textwidth-5.9cm-6\tabcolsep\relax}|}
+\begin{tabular}{|p{1.9cm}|p{1.4cm}|p{3.9cm}|}
 \hline
 \textbf{Biến} & \textbf{Loại} & \textbf{Vai trò} \\
 \hline
@@ -97,4 +102,6 @@ Detection rate & DV số & Tỷ lệ tamper scenarios được phát hiện. \\
 Security chi phí phát sinh & DV số & Chi phí thời gian bổ sung của treatment. \\
 \hline
 \end{tabular}
-\end{table*}
+\end{table}
+
+\FloatBarrier
