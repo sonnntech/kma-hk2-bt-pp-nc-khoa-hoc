@@ -15,17 +15,17 @@ của các scenarios đã đánh giá.
 \centering
 \caption{Kết quả verification quan sát được}
 \label{tab:results}
-\begin{tabular}{@{}p{2.7cm}p{5cm}p{5cm}@{}}
+\begin{tabular}{@{}p{3.6cm}p{4.4cm}p{1.3cm}@{}}
 \toprule
 \textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
 \midrule
 NONE & VALID & TN \\
-MODIFY\_TRANSACTION\_AMOUNT & DATA\_TAMPERED & TP \\
-DELETE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
-INSERT\_FAKE\_TRANSACTION & RECORD\_COUNT\_MISMATCH & TP \\
-MODIFY\_LEDGER\_BATCH\_HASH & DATA\_TAMPERED & TP \\
-MODIFY\_LEDGER\_TRANSFORMATION & BLOCK\_TAMPERED & TP \\
-MODIFY\_LEDGER\_PREVIOUS\_HASH & CHAIN\_BROKEN & TP \\
+MODIFY\_\allowbreak TRANSACTION\_\allowbreak AMOUNT & DATA\_\allowbreak TAMPERED & TP \\
+DELETE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
+INSERT\_\allowbreak FAKE\_\allowbreak TRANSACTION & RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak BATCH\_\allowbreak HASH & DATA\_\allowbreak TAMPERED & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak TRANSFORMATION & BLOCK\_\allowbreak TAMPERED & TP \\
+MODIFY\_\allowbreak LEDGER\_\allowbreak PREVIOUS\_\allowbreak HASH & CHAIN\_\allowbreak BROKEN & TP \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -59,7 +59,7 @@ tiếp để có kết luận mạnh hơn.
 Security chi phí phát sinh được tính theo công thức:
 
 \begin{equation}
-Chi phí phát sinh = \frac{SecuredDuration - BaselineDuration}{BaselineDuration} \times 100\%.
+\text{Chi phí phát sinh} = \frac{SecuredDuration - BaselineDuration}{BaselineDuration} \times 100\%.
 \end{equation}
 
 Các giá trị xấp xỉ từ bảng điều khiển cho thấy chi phí phát sinh tăng từ khoảng 160\% ở
