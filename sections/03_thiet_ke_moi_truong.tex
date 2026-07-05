@@ -11,44 +11,46 @@ nạp dữ liệu, Silver thực hiện chuẩn hóa và transformation, còn Go
 quả tổng hợp phục vụ phân tích. Mỗi giai đoạn sinh ra bằng chứng integrity
 và ghi vào ledger.
 
-Đối với mỗi giai đoạn, ledger ghi nhận giai đoạn name, số lượng bản ghi, schema
-hash, batch hash, block hash, previous block hash, transformation
-siêu dữ liệu, dấu thời gian và định danh lần chạy pipeline. Batch hash đại diện cho
-nội dung đã chuẩn hóa chính tắc của output tại giai đoạn. Schema hash đại diện cho
-cấu trúc dữ liệu. Block hash là giá trị băm (digest) mật mã của nội dung trong block.
-Previous hash liên kết block hiện tại với block trước đó trong cùng
-pipeline run.
+Đối với mỗi giai đoạn, ledger ghi nhận tên giai đoạn, số lượng bản ghi,
+\texttt{schema\_hash}, \texttt{batch\_hash}, \texttt{block\_hash},
+\texttt{previous\_hash}, metadata của transformation, dấu thời gian và định
+danh lần chạy pipeline. Trường \texttt{batch\_hash} đại diện cho nội dung
+đã chuẩn hóa chính tắc của output tại giai đoạn. Trường \texttt{schema\_hash}
+đại diện cho cấu trúc dữ liệu. Trường \texttt{block\_hash} là giá trị băm
+(digest) mật mã của nội dung trong block. Trường \texttt{previous\_hash}
+liên kết block hiện tại với block trước đó trong cùng lần chạy pipeline.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/screenshots/databricks_workspace_real.pdf}
-\caption{Môi trường triển khai thực nghiệm trên Databricks Free Edition: các notebook \texttt{00\_setup\_environment} đến \texttt{07\_experiment\_and\_metrics} trong thư mục \texttt{notebooks}, đồng bộ từ repo Git nhánh \texttt{main}, thực thi tuần tự luồng Source--Bronze--Silver--Gold (repo: \url{https://github.com/sonnntech/kma_hk2_chuyen_de_co_so_khoa_hoc}).}
+\caption{Môi trường triển khai thực nghiệm trên Databricks Free Edition, gồm các notebook từ \texttt{00\_setup\_environment} đến \texttt{07\_experiment\_and\_metrics} trong thư mục \texttt{notebooks}, đồng bộ từ repository Git và thực thi tuần tự luồng Source--Bronze--Silver--Gold.}
 \label{fig:databricks-env}
 \end{figure}
 
-Verification engine tính toán lại bằng chứng ở từng giai đoạn và so sánh với
-ledger đã lưu. Sai lệch mã băm nội dung chỉ ra khả năng data tampering. Sai
-lệch số lượng bản ghi chỉ ra khả năng chèn hoặc xóa. Sai lệch block
-nội dung chỉ ra ledger tampering. Sai lệch previous hash chỉ ra chain
-link bị phá vỡ.
+Bộ kiểm chứng tính toán lại bằng chứng ở từng giai đoạn và so sánh với
+ledger đã lưu. Sai lệch mã băm nội dung cho thấy khả năng dữ liệu đã bị
+sửa đổi không hợp lệ. Sai lệch số lượng bản ghi cho thấy khả năng chèn
+hoặc xóa. Sai lệch nội dung block cho thấy khả năng ledger đã bị sửa đổi
+không hợp lệ. Sai lệch \texttt{previous\_hash} cho thấy liên kết chuỗi bị
+phá vỡ.
 
-\subsection{Tamper Scenarios}\label{tamper-scenarios}
+\subsection{Kịch bản tamper}\label{tamper-scenarios}
 
-Nghiên cứu đánh giá sáu tamper scenarios và một clean scenario. Clean
-scenario, ký hiệu NONE, được dùng để quan sát false positive. Các tamper
-scenarios bao gồm sửa giá trị giao dịch, xóa bản ghi, chèn bản ghi giả,
-sửa batch hash đã lưu, sửa transformation siêu dữ liệu và sửa previous-hash
-link. Bảng~\ref{tab:scenarios} liệt kê từng scenario cùng verification
-outcome kỳ vọng.
+Nghiên cứu đánh giá sáu kịch bản tamper và một kịch bản sạch. Kịch bản
+sạch, ký hiệu NONE, được dùng để quan sát dương tính giả. Các kịch bản
+tamper bao gồm sửa giá trị giao dịch, xóa bản ghi, chèn bản ghi giả, sửa
+\texttt{batch\_hash} đã lưu, sửa metadata của transformation và sửa liên
+kết \texttt{previous\_hash}. Bảng~\ref{tab:scenarios} liệt kê từng kịch
+bản cùng kết quả kiểm chứng kỳ vọng.
 
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{Tamper scenarios và outcome kỳ vọng}
+\caption{Kịch bản tamper và kết quả kiểm chứng kỳ vọng}
 \label{tab:scenarios}
 \begin{tabular}{|p{3.9cm}|p{3.4cm}|}
 \hline
-\textbf{Scenario} & \textbf{Outcome kỳ vọng} \\
+\textbf{Kịch bản} & \textbf{Kết quả kỳ vọng} \\
 \hline
 NONE & VALID \\
 \hline
@@ -70,10 +72,10 @@ MODIFY\_\allowbreak LEDGER\_\allowbreak PREVIOUS\_\allowbreak HASH & CHAIN\_\all
 nghiệm}\label{sec:quytrinh}
 
 Quy trình thực nghiệm được mô tả trong
-Hình~\ref{fig:procedure}. Đầu tiên, môi trường và các
-Delta tables được khởi tạo. Tiếp theo, dữ liệu synthetic được sinh bằng
+Hình~\ref{fig:quy trình}. Đầu tiên, môi trường và các
+Delta tables được khởi tạo. Tiếp theo, dữ liệu tổng hợp được sinh bằng
 seed cố định. Sau đó, pipeline baseline và pipeline có treatment được
-thực thi. Verification engine kiểm tra clean run. Một tamper scenario
+thực thi. Bộ kiểm chứng kiểm tra clean run. Một kịch bản tamper
 được áp dụng, rồi verification được chạy lại để đo detection và
 traceability. Trạng thái baseline được reset trước khi chuyển sang
 scenario tiếp theo. Cuối cùng, benchmark được chạy theo nhiều mức record
@@ -83,7 +85,7 @@ count.
 \centering
 \includegraphics[width=\columnwidth]{images/quy_trinh_thuc_nghiem.pdf}
 \caption{Quy trình thực nghiệm cho clean run, tamper run và benchmark run.}
-\label{fig:procedure}
+\label{fig:quy trình}
 \end{figure}
 
 Các lần chạy khởi động (warm-up) được đánh dấu và loại khỏi phần tổng hợp benchmark

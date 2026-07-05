@@ -28,7 +28,7 @@ Catalog & \texttt{workspace} \\
 \hline
 Schema & \texttt{blockchain\_pipeline\_demo} \\
 \hline
-Default record count & 10\,000 \\
+Số bản ghi mặc định & 10\,000 \\
 \hline
 Random seed & 42 \\
 \hline
@@ -36,11 +36,11 @@ Source system & \texttt{SCHOOL\_DEMO} \\
 \hline
 Benchmark record counts & 1\,000 / 5\,000 / 10\,000 / 50\,000 \\
 \hline
-Runs per size & 3 (+ warm-up, loại khỏi summary) \\
+Số lần chạy cho mỗi mức dữ liệu & 3 (+ warm-up, loại khỏi tổng hợp) \\
 \hline
-CPU/RAM máy chạy Databricks & \textbf{Evidence Not Found} — Databricks Free Edition/serverless compute không công bố cấu hình cố định. \\
+CPU/RAM của môi trường Databricks & \textbf{Chưa có bằng chứng ghi nhận} — Databricks Free Edition / serverless compute không công bố cấu hình cố định. \\
 \hline
-Databricks Runtime version & \textbf{Evidence Not Found} — cần ghi lại từ workspace khi chạy lại. \\
+Databricks Runtime version & \textbf{Chưa có bằng chứng ghi nhận} — cần ghi lại từ workspace khi chạy lại. \\
 \hline
 \end{tabular}
 \end{table}
@@ -59,13 +59,13 @@ notebooks/04_gold_aggregation.py
 notebooks/05_verify_integrity.py
 \end{verbatim}
 Kết quả kỳ vọng: \texttt{SOURCE/BRONZE/SILVER/GOLD = VALID}.
-\item \textbf{Chạy một tamper scenario:} \texttt{notebooks/06\_run\_tamper\_scenarios.py} với widget \texttt{SCENARIO = MODIFY\_TRANSACTION\_AMOUNT}, \texttt{CONFIRM\_TAMPER = YES}. Reset bằng \texttt{SCENARIO = RESET\_BASELINE} trước khi đổi scenario khác.
+\item \textbf{Chạy một kịch bản tamper:} \texttt{notebooks/06\_run\_tamper\_scenarios.py} với widget \texttt{SCENARIO = MODIFY\_TRANSACTION\_AMOUNT}, \texttt{CONFIRM\_TAMPER = YES}. Reset bằng \texttt{SCENARIO = RESET\_BASELINE} trước khi đổi scenario khác.
 \item \textbf{Chạy benchmark:} \texttt{notebooks/07\_experiment\_and\_metrics.py} với \texttt{RECORD\_COUNTS=1000,5000,10000,50000}, \texttt{RUNS\_PER\_SIZE=3}, \texttt{INCLUDE\_WARMUP=YES}.
-\item \textbf{Xuất số liệu chính xác (khuyến nghị):} chạy KPI~8/9 trong \texttt{sql/dashboard\_queries.sql} trên \texttt{experiment\_metrics} (lọc \texttt{is\_warmup=false}) để thay các giá trị approximate trong Bảng~\ref{tab:overhead} bằng số liệu thô.
+\item \textbf{Xuất số liệu chính xác (khuyến nghị):} chạy KPI~8/9 trong \texttt{sql/dashboard\_queries.sql} trên \texttt{experiment\_metrics} (lọc \texttt{is\_warmup=false}) để thay các giá trị xấp xỉ trong Bảng~\ref{tab:overhead} bằng số liệu thô.
 \item \textbf{Kiểm thử đơn vị cục bộ (tuỳ chọn):} \texttt{pip install -r requirements.txt \&\& pytest tests/}.
 \end{enumerate}
 
-\subsection{Known Reproducibility Gaps}
+\subsection{Các khoảng trống về khả năng tái lập}
 
 Theo đúng yêu cầu trung thực khoa học, các giới hạn sau được công khai
 thay vì che giấu hoặc làm tròn số liệu:
@@ -80,7 +80,7 @@ thay vì che giấu hoặc làm tròn số liệu:
 \hline
 CPU/RAM và Databricks Runtime version chưa được ghi nhận & Giảm khả năng tái lập chính xác về hiệu năng; cần bổ sung khi chạy lại. \\
 \hline
-Bảng~\ref{tab:overhead} và Fig.~\ref{fig:overhead-chart} là giá trị approximate đọc từ dashboard chart, chưa export SQL trực tiếp & Cần chạy KPI~8/9 để lấy \texttt{avg\_overhead\_percent} và \texttt{median\_overhead\_percent} chính xác. \\
+Bảng~\ref{tab:overhead} và Fig.~\ref{fig:overhead-chart} là giá trị xấp xỉ đọc từ dashboard chart, chưa export SQL trực tiếp & Cần chạy KPI~8/9 để lấy \texttt{avg\_overhead\_percent} và \texttt{median\_overhead\_percent} chính xác. \\
 \hline
 \texttt{RUNS\_PER\_SIZE = 3} & Chưa đủ mẫu cho box-plot/CDF đáng tin cậy; Fig.~\ref{fig:latency-chart} chỉ là minh họa min/điển hình/outlier, không phải phân phối đầy đủ. \\
 \hline

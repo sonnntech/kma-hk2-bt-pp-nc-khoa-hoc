@@ -3,26 +3,28 @@ triển}\label{sec:extra0}
 
 Bài báo đã trình bày một đánh giá bán thực nghiệm đối với cơ chế
 Hash-linked Tamper-evident Ledger nhằm kiểm chứng tính toàn vẹn dữ liệu
-trong hệ thống Data Pipeline. Cơ chế này ghi nhận bằng chứng integrity ở
-từng giai đoạn và liên kết các ledger blocks thông qua previous hash.
-Verification engine tính toán lại số lượng bản ghi, mã băm cấu trúc dữ liệu (schema hash), batch hash,
-block hash và liên kết chuỗi để phát hiện modification sau xử lý.
+trong hệ thống Data Pipeline. Cơ chế này ghi nhận bằng chứng toàn vẹn ở
+từng giai đoạn và liên kết các block ledger thông qua
+\texttt{previous\_hash}. Bộ kiểm chứng tính toán lại số lượng bản ghi,
+\texttt{schema\_hash}, \texttt{batch\_hash}, \texttt{block\_hash} và
+liên kết chuỗi để phát hiện sửa đổi sau xử lý.
 
-Các quan sát thực nghiệm hỗ trợ các giả thuyết chính trong phạm vi
-bounded scope. Tất cả tamper scenarios được định nghĩa trước đều được
-phát hiện, điều kiện sạch vẫn VALID trong bảng điều khiển xuất dữ liệu quan sát
-được, và lineage context hỗ trợ xác định affected giai đoạn. Runtime
-chi phí phát sinh tăng khi số lượng bản ghi tăng, nhưng kết quả chi phí phát sinh vẫn là
-approximate và chịu ảnh hưởng bởi cloud compute variability.
+Các quan sát thực nghiệm hỗ trợ các giả thuyết chính trong phạm vi giới
+hạn của nghiên cứu. Tất cả kịch bản tamper được định nghĩa trước đều
+được phát hiện, điều kiện sạch vẫn VALID trong dashboard xuất dữ liệu
+quan sát được, và ngữ cảnh lineage hỗ trợ xác định giai đoạn bị ảnh
+hưởng. Overhead thời gian chạy tăng khi số lượng bản ghi tăng, nhưng các
+giá trị overhead hiện tại vẫn mang tính xấp xỉ và chịu ảnh hưởng bởi dao
+động của môi trường cloud.
 
 Nghiên cứu nên được hiểu là bằng chứng cho một cơ chế tamper-evident
 nhẹ, không phải bằng chứng về bảo mật Blockchain đầy đủ. Nguyên mẫu
-không bao gồm decentralized consensus, nhiều independent nút, smart
-contracts hoặc external neo tin cậy. Vì vậy, security boundary của
-cơ chế hiện tại bị giới hạn trong controlled không gian làm việc setting.
+không bao gồm đồng thuận phân tán, nhiều nút độc lập, smart contract
+hoặc điểm neo tin cậy bên ngoài. Vì vậy, ranh giới bảo mật của cơ chế
+hiện tại bị giới hạn trong phạm vi workspace thực nghiệm được kiểm soát.
 
-Trong tương lai, nghiên cứu cần được lặp lại trên nhiều data platforms,
-mở rộng tập tamper vectors thông qua kiểm thử đối kháng, tăng số lần
-số lần lặp lại đo hiệu năng, xuất dữ liệu raw benchmark values, externalize ledger
-sang một ranh giới tin cậy độc lập và bổ sung chữ ký số nhằm tăng
-cường bằng chứng chống lại privileged người có quyền truy cập nội bộ modification.
+Trong tương lai, nghiên cứu cần được lặp lại trên nhiều data platform,
+mở rộng tập vector tamper thông qua kiểm thử đối kháng, tăng số lần lặp
+lại đo hiệu năng, xuất dữ liệu benchmark thô, đưa ledger sang một ranh
+giới tin cậy độc lập và bổ sung chữ ký số nhằm tăng cường khả năng phát
+hiện sửa đổi bởi người dùng nội bộ có đặc quyền.

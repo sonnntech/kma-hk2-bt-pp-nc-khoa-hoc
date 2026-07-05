@@ -4,7 +4,7 @@ cứu}\label{sec:phuongphap}
 \subsection{Chứng minh lựa chọn thiết kế bán thực
 nghiệm}\label{sec:bienminh}
 
-Nghiên cứu này sử dụng phương pháp bán thực nghiệm (quasi-experimental)
+Nghiên cứu này sử dụng phương pháp bán thực nghiệm (quasi-experimental)~\citep{shadishCook2002}
 vì can thiệp kỹ thuật có thể được triển khai và đo lường, nhưng môi
 trường thực nghiệm không thể được kiểm soát hoàn toàn. Một true
 experiment đòi hỏi random assignment, tài nguyên tính toán cố định, điều
@@ -14,10 +14,10 @@ giống hệt nhau và tập đối tượng tấn công đại diện cho thự
 nghiên cứu.
 
 Thực nghiệm kiểm soát các yếu tố có thể kiểm soát được: cấu trúc
-pipeline, seed sinh dữ liệu synthetic, danh sách tamper scenarios, logic
-verification, tập biến đo lường và thứ tự procedure. Đồng thời, nghiên
+pipeline, seed sinh dữ liệu tổng hợp, danh sách kịch bản tampers, logic
+verification, tập biến đo lường và thứ tự quy trình. Đồng thời, nghiên
 cứu ghi nhận các yếu tố không thể kiểm soát: lập lịch trên nền tảng đám mây, trạng
-thái khởi động, cache, độ trễ mạng và việc tamper scenarios là đại diện gần đúng (proxy)
+thái khởi động, cache, độ trễ mạng và việc kịch bản tampers là đại diện gần đúng (proxy)
 do nhà nghiên cứu thiết kế, không phải mẫu ngẫu nhiên của không gian tấn công thực
 tế. Vì vậy, kết quả được diễn giải là bằng chứng bán thực nghiệm về quan
 hệ giữa treatment và outcome quan sát được, không phải kết luận nhân quả
@@ -26,9 +26,9 @@ phổ quát.
 \subsection{Treatment và Control}\label{sec:extra1}
 
 Treatment là việc bổ sung Hash-linked Tamper-evident Ledger, lineage
-recorder và verification engine vào một Data Pipeline chuẩn. Control
+recorder và bộ kiểm chứng vào một Data Pipeline chuẩn. Control
 condition phụ thuộc vào câu hỏi nghiên cứu. Đối với detection và
-traceability, trạng thái pipeline sạch, không có tamper scenario, đóng
+traceability, trạng thái pipeline sạch, không có kịch bản tamper, đóng
 vai trò pre-test control. Đối với chi phí phát sinh, pipeline baseline không có
 ledger và verification instrumentation đóng vai trò non-equivalent
 control.
@@ -53,10 +53,10 @@ trong Bảng~\ref{tab:hypotheses}.
 \hline
 \textbf{Mã} & \textbf{Giả thuyết} \\
 \hline
-H1 & Treatment phát hiện tất cả tamper scenarios được định nghĩa trước,
+H1 & Treatment phát hiện tất cả kịch bản tampers được định nghĩa trước,
 trong khi điều kiện sạch vẫn hợp lệ. \\
 \hline
-H2 & Treatment xác định được first broken block và liên kết được với
+H2 & Treatment xác định được block sai lệch đầu tiên và liên kết được với
 lineage event tương ứng. \\
 \hline
 H3 & Treatment làm tăng thời gian xử lý so với pipeline baseline, và
@@ -69,12 +69,12 @@ luận nhân quả mạnh như true experiment. \\
 \end{table}
 \subsection{Biến nghiên cứu}\label{sec:bienso}
 
-Các biến độc lập gồm tamper scenario, số lượng bản ghi, pipeline giai đoạn,
-security mechanism và run condition. Các biến phụ thuộc gồm verification
-outcome, detection rate, first-broken-block accuracy, traceability
-completeness, security chi phí phát sinh, baseline duration, secured duration và
-verification duration. Bảng~\ref{tab:variables} tóm tắt các biến cốt lõi
-cùng loại và vai trò của chúng.
+Các biến độc lập gồm kịch bản tamper, số lượng bản ghi, giai đoạn pipeline,
+cơ chế bảo mật và điều kiện chạy. Các biến phụ thuộc gồm kết quả kiểm chứng,
+tỷ lệ phát hiện, độ chính xác của block sai lệch đầu tiên, mức độ đầy đủ
+của truy vết, overhead bảo mật, thời gian chạy baseline, thời gian chạy có
+cơ chế bảo vệ và thời gian kiểm chứng. Bảng~\ref{tab:variables} tóm tắt
+các biến cốt lõi cùng loại và vai trò của chúng.
 
 \begin{table}[!t]
 \centering
@@ -85,21 +85,21 @@ cùng loại và vai trò của chúng.
 \hline
 \textbf{Biến} & \textbf{Loại} & \textbf{Vai trò} \\
 \hline
-Tamper scenario & IV phân loại & Tác nhân kiểm thử detection và
-traceability. \\
+Kịch bản tamper & IV phân loại & Tác nhân kiểm thử phát hiện và
+truy vết. \\
 \hline
-Record count & IV thứ bậc & Yếu tố đánh giá scaling của chi phí phát sinh. \\
+Số lượng bản ghi & IV thứ bậc & Yếu tố đánh giá scaling của chi phí phát sinh. \\
 \hline
-Pipeline giai đoạn & IV phân loại & Ngữ cảnh cho block và lineage
+Giai đoạn pipeline & IV phân loại & Ngữ cảnh cho block và lineage
 mapping. \\
 \hline
-Security mechanism & IV nhị phân & So sánh control và treatment. \\
+Cơ chế bảo mật & IV nhị phân & So sánh control và treatment. \\
 \hline
-Verification outcome & DV phân loại & Kết quả phát hiện chính. \\
+Kết quả kiểm chứng & DV phân loại & Kết quả phát hiện chính. \\
 \hline
-Detection rate & DV số & Tỷ lệ tamper scenarios được phát hiện. \\
+Tỷ lệ phát hiện & DV số & Tỷ lệ kịch bản tamper được phát hiện. \\
 \hline
-Security chi phí phát sinh & DV số & Chi phí thời gian bổ sung của treatment. \\
+Overhead bảo mật & DV số & Chi phí thời gian bổ sung của treatment. \\
 \hline
 \end{tabular}
 \end{table}

@@ -4,21 +4,21 @@ nghiệm}\label{sec:danhgia}
 \subsection{Kết quả phát hiện
 tamper}\label{sec:ketquaphathien}
 
-Điều kiện sạch tạo ra verification outcome là VALID trong bảng điều khiển
-xuất dữ liệu được dùng làm bằng chứng cho trạng thái không bị tamper. Các
-tamper experiments tạo ra outcome non-VALID cho tất cả tamper scenarios
-được định nghĩa trước. Bảng~\ref{tab:results} tóm tắt
-các outcome quan sát được. Kết quả hỗ trợ H1 trong phạm vi bounded set
-của các scenarios đã đánh giá.
+Điều kiện sạch tạo ra kết quả kiểm chứng VALID trong dashboard xuất dữ
+liệu, được dùng làm bằng chứng cho trạng thái chưa bị tamper. Các thực
+nghiệm can thiệp tạo ra kết quả khác VALID đối với tất cả kịch bản tamper
+được định nghĩa trước. Bảng~\ref{tab:results} tóm tắt các kết quả quan
+sát được. Kết quả hỗ trợ H1 trong phạm vi tập kịch bản đã được định nghĩa
+và đánh giá.
 
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{Kết quả verification quan sát được}
+\caption{Kết quả kiểm chứng quan sát được}
 \label{tab:results}
 \begin{tabular}{|p{3.4cm}|p{3.0cm}|p{0.7cm}|}
 \hline
-\textbf{Scenario} & \textbf{Outcome quan sát} & \textbf{Loại} \\
+\textbf{Kịch bản} & \textbf{Kết quả quan sát} & \textbf{Loại} \\
 \hline
 NONE & VALID & TN \\
 \hline
@@ -40,65 +40,71 @@ MODIFY\_\allowbreak LEDGER\_\allowbreak PREVIOUS\_\allowbreak HASH & CHAIN\_\all
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/screenshots/verification_dashboard_real.pdf}
-\caption{Verification Dashboard (xuất từ Databricks SQL) ở trạng thái sạch: 15 lần chạy pipeline, 60 block ledger, 56 block xác thực thành công; biểu đồ trạng thái chỉ ghi nhận outcome VALID và mục ``Sự Kiện Phát Hiện Giả Mạo'' không có dữ liệu trong bộ lọc hiện tại, đối chiếu với hàng NONE/VALID của Bảng~\ref{tab:results}.}
+\caption{Verification Dashboard ở trạng thái sạch: dashboard ghi nhận các lần chạy pipeline, số block ledger, số block xác thực thành công và kết quả VALID trong bộ lọc hiện tại.}
 \label{fig:verification-dashboard}
 \end{figure}
-Detection rate được tính theo công thức:
+Tỷ lệ phát hiện được tính theo công thức:
 
 \begin{equation}
-Detection\ Rate = \frac{TP}{TP + FN} \times 100\%.
+\text{Tỷ lệ phát hiện} = \frac{TP}{TP + FN} \times 100\%.
 \end{equation}
 
-Với sáu true positives và không quan sát thấy false negative trong các
-tampered scenarios, detection rate đạt 100\% trong test set được định
-nghĩa trước. Kết quả này không nên được hiểu là coverage phổ quát đối
-với mọi attack vector. Nó chỉ có nghĩa là cơ chế đã phát hiện sáu tamper
-vectors được lựa chọn trong thực nghiệm này.
+Với sáu trường hợp dương tính thật và không quan sát thấy âm tính giả
+trong các kịch bản có can thiệp, tỷ lệ phát hiện đạt 100\% trong tập kiểm
+thử đã định nghĩa trước. Kết quả này không nên được hiểu là mức bao phủ
+phổ quát đối với mọi vector tấn công. Nó chỉ có nghĩa là cơ chế đã phát
+hiện sáu vector tamper được lựa chọn trong thực nghiệm này.
 
-\subsection{Kết quả traceability}\label{sec:traceability}
+\subsection{Kết quả truy vết}\label{sec:traceability}
 
-Verification engine trả về first broken block khi phát hiện mismatch.
-Block này có thể được join với lineage events thông qua pipeline run
-identifier. Lineage flow mẫu ghi nhận các transformation
-Source-to-Bronze, Bronze-to-Silver và Silver-to-Gold, bao gồm input
-số lượng bản ghi, output số lượng bản ghi, transformation context và status. Đối
-với các tamper scenarios được đánh giá, first broken block và lineage
-context khớp với affected giai đoạn ở mức giai đoạn tổng quát. Điều này hỗ trợ
-H2, nhưng vẫn có giới hạn: một số giá trị giai đoạn trong source report được
-ghi nhận ở mức approximate và cần được xác minh bằng SQL xuất dữ liệu trực
-tiếp để có kết luận mạnh hơn.
+Bộ kiểm chứng trả về block sai lệch đầu tiên khi phát hiện sai khớp.
+Block này có thể được liên kết với các sự kiện lineage~\citep{openlineage} thông qua định
+danh lần chạy pipeline. Luồng lineage mẫu ghi nhận các transformation
+Source--Bronze, Bronze--Silver và Silver--Gold, bao gồm số lượng bản ghi
+đầu vào, số lượng bản ghi đầu ra, ngữ cảnh transformation và trạng thái.
+Đối với các kịch bản tamper được đánh giá, block sai lệch đầu tiên và ngữ
+cảnh lineage khớp với giai đoạn bị ảnh hưởng ở mức giai đoạn tổng quát.
+Điều này hỗ trợ H2, nhưng vẫn có giới hạn: một số giá trị giai đoạn trong
+báo cáo nguồn được ghi nhận ở mức xấp xỉ và cần được xác minh bằng SQL
+xuất dữ liệu trực tiếp để có kết luận mạnh hơn. Panel ``Block Bị Phá Vỡ
+Đầu Tiên'' trong dashboard chưa hiển thị dữ liệu trong lần xuất này; phép
+JOIN chi tiết giữa block sai lệch đầu tiên và sự kiện lineage cần được
+thực hiện qua KPI~6 (\texttt{sql/dashboard\_queries.sql}) để đối chiếu
+đầy đủ.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/screenshots/tamper_lineage_real.pdf}
-\caption{Verification Dashboard sau khi áp dụng một tamper scenario: mục ``Sự Kiện Phát Hiện Giả Mạo'' ghi nhận outcome \texttt{RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH}, cùng bảng ``Luồng Dữ Liệu'' hiển thị các lineage event Source$\to$Bronze$\to$Silver$\to$Gold với số bản ghi vào/ra. Panel ``Block Bị Phá Vỡ Đầu Tiên'' chưa hiển thị dữ liệu trong export này; phép JOIN chi tiết giữa first broken block và lineage event cần thực hiện qua KPI~6 (\texttt{sql/dashboard\_queries.sql}).}
+\caption{Verification Dashboard sau khi áp dụng một kịch bản tamper. Dashboard ghi nhận kết quả \texttt{RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH} và hiển thị các sự kiện lineage Source$\to$Bronze$\to$Silver$\to$Gold.}
 \label{fig:lineage-join}
 \end{figure}
 
-\subsection{Kết quả chi phí phát sinh}\label{sec:overhead}
+\subsection{Kết quả overhead thời gian chạy}\label{sec:overhead}
 
-Security chi phí phát sinh được tính theo công thức, với
-$T_{\text{secured}}$ và $T_{\text{baseline}}$ lần lượt là thời gian xử
-lý pipeline có và không có Hash-linked Ledger:
+Overhead bảo mật được tính theo công thức, với $T_{\text{secured}}$ và
+$T_{\text{baseline}}$ lần lượt là thời gian xử lý pipeline có và không
+có Hash-linked Ledger:
 
 \begin{equation}
-\text{Chi phí phát sinh} = \frac{T_{\text{secured}} - T_{\text{baseline}}}{T_{\text{baseline}}} \times 100\%.
+\text{Overhead bảo mật} = \frac{T_{\text{secured}} - T_{\text{baseline}}}{T_{\text{baseline}}} \times 100\%.
 \end{equation}
 
-Các giá trị xấp xỉ từ bảng điều khiển cho thấy chi phí phát sinh tăng từ khoảng 160\% ở
-mức 1K records lên khoảng 220\% ở mức 50K records.
-Bảng~\ref{tab:overhead} tóm tắt xu hướng quan sát được.
-Trường hợp 5K gần với 1K, cho thấy khả năng có ảnh hưởng của cloud
-runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
+Các giá trị xấp xỉ từ dashboard cho thấy overhead tăng từ khoảng 160\% ở
+mức 1K bản ghi lên khoảng 220\% ở mức 50K bản ghi.
+Bảng~\ref{tab:overhead} tóm tắt xu hướng quan sát được. Trường hợp 5K
+gần với 1K, cho thấy khả năng có ảnh hưởng của dao động thời gian chạy
+trên môi trường cloud. Nhìn chung, bằng chứng thực nghiệm hỗ trợ H3,
+nhưng kết luận cần được diễn giải thận trọng do còn tồn tại các yếu tố
+gây nhiễu trong môi trường cloud.
 
 \begin{table}[!t]
 \centering
 \footnotesize
-\caption{Runtime chi phí phát sinh xấp xỉ theo số lượng bản ghi}
+\caption{Overhead thời gian chạy xấp xỉ theo số lượng bản ghi}
 \label{tab:overhead}
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{Số bản ghi} & \textbf{Chi phí phát sinh xấp xỉ} & \textbf{Bằng chứng} \\
+\textbf{Số bản ghi} & \textbf{Overhead xấp xỉ} & \textbf{Bằng chứng} \\
 \hline
 1K & \(\sim\)160\% & Dashboard \\
 \hline
@@ -114,35 +120,36 @@ runtime variance. Nhìn chung, bằng chứng hỗ trợ H3 nhưng kèm caveats.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/charts/overhead_by_record_count.pdf}
-\caption{Chi phí phát sinh xấp xỉ theo số lượng bản ghi (n=3 lần chạy/mức, đọc từ dashboard). Xem Phụ lục~\ref{sec:reproducibility}, mục Known Gaps, để biết cách xuất giá trị chính xác từ \texttt{experiment\_metrics}.}
+\caption{Overhead thời gian chạy xấp xỉ theo số lượng bản ghi, đọc từ dashboard với n=3 lần chạy cho mỗi mức record count.}
 \label{fig:overhead-chart}
 \end{figure}
-Verification latency dao động xấp xỉ từ 24 giây đến 31 giây trong các
-runs gần nhất, với một giá trị ngoại lai cao hơn. Quan sát này phù hợp với giả
-định bán thực nghiệm rằng khởi động nguội (cold start) và cloud compute scheduling không
-thể được kiểm soát hoàn toàn.
+Độ trễ kiểm chứng dao động xấp xỉ từ 24 giây đến 31 giây trong các lần
+chạy gần nhất, với một giá trị ngoại lai cao hơn. Quan sát này phù hợp
+với giả định bán thực nghiệm rằng khởi động nguội (cold start) và cơ chế
+lập lịch trên môi trường cloud không thể được kiểm soát hoàn toàn.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/charts/verification_latency_range.pdf}
-\caption{Khoảng verification latency quan sát được (min / điển hình / outlier). Đây là biểu diễn minh họa từ mô tả xấp xỉ, không phải box-plot đầy đủ vì chưa có raw per-run export (xem Phụ lục~\ref{sec:reproducibility}).}
+\caption{Khoảng độ trễ kiểm chứng quan sát được từ dashboard. Hình chỉ minh họa giá trị nhỏ nhất, điển hình và ngoại lai; chưa phải box-plot đầy đủ do chưa có dữ liệu thô cho từng lần chạy.}
 \label{fig:latency-chart}
 \end{figure}
 
 \subsection{Thảo luận}\label{sec:thaoluan}
 
 Bằng chứng thực nghiệm cho thấy Hash-linked Ledger có thể làm cho hành
-vi tamper sau xử lý trở nên quan sát được trong pipeline nhiều giai đoạn. Cơ
-chế này đặc biệt hữu ích khi mục tiêu không phải là ngăn chặn trực tiếp
-privileged writes, mà là phát hiện modification trái phép trong quá
-trình verification về sau. Điều này phù hợp với thiết kế tamper-evident,
-không phải tamper-proof.
+vi sửa đổi sau xử lý trở nên quan sát được trong pipeline nhiều giai
+đoạn. Cơ chế này đặc biệt hữu ích khi mục tiêu không phải là ngăn chặn
+trực tiếp các thao tác ghi bởi tài khoản đặc quyền, mà là phát hiện các
+sửa đổi trái phép trong quá trình kiểm chứng về sau. Điều này phù hợp với
+thiết kế tamper-evident, tức là phát hiện sửa đổi sau khi xảy ra, chứ
+không phải tamper-proof, tức là ngăn chặn tuyệt đối mọi sửa đổi.
 
 Kết quả cũng làm rõ vai trò của thuật ngữ Blockchain. Nguyên mẫu sử dụng
-hash chain lấy cảm hứng từ Blockchain, nhưng không triển khai
-distributed consensus, replicated nút, mining, proof-of-work,
-proof-of-stake hoặc smart contracts. Vì vậy, thuật ngữ chính xác hơn là
-Hash-linked Tamper-evident Ledger. Sự phân biệt này quan trọng đối với
-construct validity và giúp tránh overclaiming.
+hash chain lấy cảm hứng từ Blockchain, nhưng không triển khai đồng thuận
+phân tán, các nút sao chép, mining, proof-of-work, proof-of-stake hoặc
+smart contract. Vì vậy, thuật ngữ chính xác hơn là Hash-linked
+Tamper-evident Ledger. Sự phân biệt này quan trọng đối với tính hợp lệ
+khái niệm và giúp tránh tuyên bố quá mức.
 
 \FloatBarrier
