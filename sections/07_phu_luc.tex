@@ -59,7 +59,7 @@ notebooks/04_gold_aggregation.py
 notebooks/05_verify_integrity.py
 \end{verbatim}
 Kết quả kỳ vọng: \texttt{SOURCE/BRONZE/SILVER/GOLD = VALID}.
-\item \textbf{Chạy một kịch bản tamper:} \texttt{notebooks/06\_run\_tamper\_scenarios.py} với widget \texttt{SCENARIO = MODIFY\_TRANSACTION\_AMOUNT}, \texttt{CONFIRM\_TAMPER = YES}. Reset bằng \texttt{SCENARIO = RESET\_BASELINE} trước khi đổi scenario khác.
+\item \textbf{Chạy một kịch bản tamper:} \texttt{notebooks/06\_run\_tamper\_scenarios.py} với widget \texttt{SCENARIO = DELETE\_TRANSACTION}, \texttt{CONFIRM\_TAMPER = YES} (kết quả kỳ vọng \texttt{RECORD\_COUNT\_MISMATCH}, tương ứng với Fig.~\ref{fig:lineage-join}). Reset bằng \texttt{SCENARIO = RESET\_BASELINE} trước khi đổi scenario khác.
 \item \textbf{Chạy benchmark:} \texttt{notebooks/07\_experiment\_and\_metrics.py} với \texttt{RECORD\_COUNTS=1000,5000,10000,50000}, \texttt{RUNS\_PER\_SIZE=3}, \texttt{INCLUDE\_WARMUP=YES}.
 \item \textbf{Xuất số liệu chính xác (khuyến nghị):} chạy KPI~8/9 trong \texttt{sql/dashboard\_queries.sql} trên \texttt{experiment\_metrics} (lọc \texttt{is\_warmup=false}) để thay các giá trị xấp xỉ trong Bảng~\ref{tab:overhead} bằng số liệu thô.
 \item \textbf{Kiểm thử đơn vị cục bộ (tuỳ chọn):} \texttt{pip install -r requirements.txt \&\& pytest tests/}.
