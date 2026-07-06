@@ -75,7 +75,7 @@ Quy trình thực nghiệm được mô tả trong
 Hình~\ref{fig:quy trình}. Đầu tiên, môi trường và các
 Delta tables được khởi tạo. Tiếp theo, dữ liệu tổng hợp được sinh bằng
 seed cố định. Sau đó, pipeline baseline và pipeline có treatment được
-thực thi. Bộ kiểm chứng kiểm tra clean run. Một kịch bản tamper
+thực thi. Bộ kiểm chứng kiểm tra lần chạy sạch. Một kịch bản tamper
 được áp dụng, rồi verification được chạy lại để đo phát hiện và truy vết. Trạng thái baseline được reset trước khi chuyển sang
 scenario tiếp theo. Cuối cùng, benchmark được chạy theo nhiều mức record
 count.
@@ -83,7 +83,7 @@ count.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/quy_trinh_thuc_nghiem.pdf}
-\caption{Quy trình thực nghiệm cho clean run, tamper run và benchmark run.}
+\caption{Quy trình thực nghiệm cho lần chạy sạch, lần chạy có can thiệp và lần chạy benchmark.}
 \label{fig:quy trình}
 \end{figure}
 
