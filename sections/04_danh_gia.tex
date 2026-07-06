@@ -63,18 +63,19 @@ Source--Bronze, Bronze--Silver và Silver--Gold, bao gồm số lượng bản g
 đầu vào, số lượng bản ghi đầu ra, ngữ cảnh transformation và trạng thái.
 Đối với các kịch bản tamper được đánh giá, block sai lệch đầu tiên và ngữ
 cảnh lineage khớp với giai đoạn bị ảnh hưởng ở mức giai đoạn tổng quát.
-Điều này hỗ trợ H2, nhưng vẫn có giới hạn: một số giá trị giai đoạn trong
-báo cáo nguồn được ghi nhận ở mức xấp xỉ và cần được xác minh bằng SQL
-xuất dữ liệu trực tiếp để có kết luận mạnh hơn. Panel ``Block Bị Phá Vỡ
-Đầu Tiên'' trong dashboard chưa hiển thị dữ liệu trong lần xuất này; phép
-JOIN chi tiết giữa block sai lệch đầu tiên và sự kiện lineage cần được
-thực hiện qua KPI~6 (\texttt{sql/dashboard\_queries.sql}) để đối chiếu
-đầy đủ.
+Kết quả này hỗ trợ H2 ở mức một phần: cơ chế xác định được giai đoạn bị
+ảnh hưởng, nhưng việc định vị chính xác block sai lệch đầu tiên chưa được
+chứng minh đầy đủ trong lần xuất dữ liệu này. Cụ thể, một số giá trị giai
+đoạn trong báo cáo nguồn được ghi nhận ở mức xấp xỉ, và panel ``Block Bị
+Phá Vỡ Đầu Tiên'' trong dashboard chưa hiển thị dữ liệu trong lần xuất
+này. Phép JOIN chi tiết giữa block sai lệch đầu tiên và sự kiện lineage
+cần được thực hiện qua KPI~6 (\texttt{sql/dashboard\_queries.sql}) để có
+kết luận đầy đủ và mạnh hơn.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{images/screenshots/tamper_lineage_real.pdf}
-\caption{Verification Dashboard sau khi áp dụng một kịch bản tamper. Dashboard ghi nhận kết quả \texttt{RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH} và hiển thị các sự kiện lineage Source$\to$Bronze$\to$Silver$\to$Gold.}
+\caption{Verification Dashboard sau khi áp dụng một kịch bản tamper thuộc nhóm sửa đổi số lượng bản ghi. Dashboard ghi nhận kết quả \texttt{RECORD\_\allowbreak COUNT\_\allowbreak MISMATCH}, khớp với kết quả kỳ vọng cho các kịch bản \texttt{DELETE\_\allowbreak TRANSACTION} và \texttt{INSERT\_\allowbreak FAKE\_\allowbreak TRANSACTION} trong Bảng~\ref{tab:scenarios}, đồng thời hiển thị các sự kiện lineage Source$\to$Bronze$\to$Silver$\to$Gold.}
 \label{fig:lineage-join}
 \end{figure}
 
