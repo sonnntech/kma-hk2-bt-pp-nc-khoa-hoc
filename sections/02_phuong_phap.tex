@@ -14,21 +14,18 @@ giống hệt nhau và tập đối tượng tấn công đại diện cho thự
 nghiên cứu.
 
 Thực nghiệm kiểm soát các yếu tố có thể kiểm soát được: cấu trúc
-pipeline, seed sinh dữ liệu tổng hợp, danh sách kịch bản tampers, logic
-verification, tập biến đo lường và thứ tự quy trình. Đồng thời, nghiên
+pipeline, seed sinh dữ liệu tổng hợp, danh sách kịch bản tamper, logic kiểm chứng, tập biến đo lường và thứ tự quy trình. Đồng thời, nghiên
 cứu ghi nhận các yếu tố không thể kiểm soát: lập lịch trên nền tảng đám mây, trạng
-thái khởi động, cache, độ trễ mạng và việc kịch bản tampers là đại diện gần đúng (proxy)
+thái khởi động, cache, độ trễ mạng và việc các kịch bản tamper là đại diện gần đúng (proxy)
 do nhà nghiên cứu thiết kế, không phải mẫu ngẫu nhiên của không gian tấn công thực
 tế. Vì vậy, kết quả được diễn giải là bằng chứng bán thực nghiệm về quan
-hệ giữa treatment và outcome quan sát được, không phải kết luận nhân quả
+hệ giữa điều kiện can thiệp và kết quả quan sát được, không phải kết luận nhân quả
 phổ quát.
 
 \subsection{Treatment và Control}\label{sec:extra1}
 
 Treatment là việc bổ sung Hash-linked Tamper-evident Ledger, lineage
-recorder và bộ kiểm chứng vào một Data Pipeline chuẩn. Control
-condition phụ thuộc vào câu hỏi nghiên cứu. Đối với detection và
-traceability, trạng thái pipeline sạch, không có kịch bản tamper, đóng
+recorder và bộ kiểm chứng vào một Data Pipeline chuẩn. Điều kiện đối chứng phụ thuộc vào câu hỏi nghiên cứu. Đối với phát hiện và truy vết, trạng thái pipeline sạch, không có kịch bản tamper, đóng
 vai trò pre-test control. Đối với chi phí phát sinh, pipeline baseline không có
 ledger và verification instrumentation đóng vai trò non-equivalent
 control.
@@ -53,7 +50,7 @@ trong Bảng~\ref{tab:hypotheses}.
 \hline
 \textbf{Mã} & \textbf{Giả thuyết} \\
 \hline
-H1 & Treatment phát hiện tất cả kịch bản tampers được định nghĩa trước,
+H1 & Treatment phát hiện tất cả kịch bản tamper được định nghĩa trước,
 trong khi điều kiện sạch vẫn hợp lệ. \\
 \hline
 H2 & Treatment xác định được block sai lệch đầu tiên và liên kết được với
@@ -88,10 +85,9 @@ các biến cốt lõi cùng loại và vai trò của chúng.
 Kịch bản tamper & IV phân loại & Tác nhân kiểm thử phát hiện và
 truy vết. \\
 \hline
-Số lượng bản ghi & IV thứ bậc & Yếu tố đánh giá scaling của chi phí phát sinh. \\
+Số lượng bản ghi & IV thứ bậc & Yếu tố đánh giá mức thay đổi chi phí theo quy mô dữ liệu. \\
 \hline
-Giai đoạn pipeline & IV phân loại & Ngữ cảnh cho block và lineage
-mapping. \\
+Giai đoạn pipeline & IV phân loại & Ngữ cảnh cho block và ánh xạ lineage. \\
 \hline
 Cơ chế bảo mật & IV nhị phân & So sánh control và treatment. \\
 \hline
@@ -99,7 +95,7 @@ Kết quả kiểm chứng & DV phân loại & Kết quả phát hiện chính. 
 \hline
 Tỷ lệ phát hiện & DV số & Tỷ lệ kịch bản tamper được phát hiện. \\
 \hline
-Overhead bảo mật & DV số & Chi phí thời gian bổ sung của treatment. \\
+Overhead thời gian chạy & DV số & Chi phí thời gian bổ sung của treatment. \\
 \hline
 \end{tabular}
 \end{table}

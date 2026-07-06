@@ -11,7 +11,7 @@ liên kết chuỗi để phát hiện sửa đổi sau xử lý.
 
 Các quan sát thực nghiệm hỗ trợ các giả thuyết chính trong phạm vi giới
 hạn của nghiên cứu. Tất cả kịch bản tamper được định nghĩa trước đều
-được phát hiện, điều kiện sạch vẫn VALID trong dashboard xuất dữ liệu
+được phát hiện, điều kiện sạch vẫn VALID trong dashboard được xuất từ Databricks SQL
 quan sát được, và ngữ cảnh lineage hỗ trợ xác định giai đoạn bị ảnh
 hưởng. Overhead thời gian chạy tăng khi số lượng bản ghi tăng, nhưng các
 giá trị overhead hiện tại vẫn mang tính xấp xỉ và chịu ảnh hưởng bởi dao
@@ -23,8 +23,8 @@ không bao gồm đồng thuận phân tán, nhiều nút độc lập, smart co
 hoặc điểm neo tin cậy bên ngoài. Vì vậy, ranh giới bảo mật của cơ chế
 hiện tại bị giới hạn trong phạm vi workspace thực nghiệm được kiểm soát.
 
-Trong tương lai, nghiên cứu cần được lặp lại trên nhiều data platform,
-mở rộng tập vector tamper thông qua kiểm thử đối kháng, tăng số lần lặp
+Trong tương lai, nghiên cứu cần được lặp lại trên nhiều nền tảng dữ liệu,
+mở rộng tập vector can thiệp thông qua kiểm thử đối kháng, tăng số lần lặp
 lại đo hiệu năng, xuất dữ liệu benchmark thô, đưa ledger sang một ranh
 giới tin cậy độc lập và bổ sung chữ ký số nhằm tăng cường khả năng phát
 hiện sửa đổi bởi người dùng nội bộ có đặc quyền.
